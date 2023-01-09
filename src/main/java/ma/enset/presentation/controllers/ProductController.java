@@ -36,7 +36,7 @@ public class ProductController implements Initializable {
     private TableView<Product> tableViewProducts;
 
     @FXML
-    private TableColumn<Product, Integer> categoryCol;
+    private TableColumn<Product, Category> categoryCol;
 
     @FXML
     private ComboBox<Category> categoryCombo;
@@ -91,7 +91,7 @@ public class ProductController implements Initializable {
         );
 
         categoryCombo.setItems(categoryObservableList);
-        categoryCombo.getSelectionModel().select(1);
+//        categoryCombo.getSelectionModel().select(1);
     }
     private void loadProduct(){
 
@@ -103,7 +103,7 @@ public class ProductController implements Initializable {
         priceCol.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
         qteCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("qte"));
         descCol.setCellValueFactory(new PropertyValueFactory<Product, String>("description"));
-        categoryCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("CatId"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<Product, Category>("category"));
 
         tableViewProducts.setItems(productObservableList);
 
@@ -128,7 +128,7 @@ public class ProductController implements Initializable {
                             try {
                                 Product product = tableViewProducts.getSelectionModel().getSelectedItem();
                                 productService.delete(product);
-                                refreshData();
+                                productObservableList.remove(product);
 
                             } catch (Exception ex) {
                                 Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
@@ -205,7 +205,7 @@ public class ProductController implements Initializable {
         p.setDescription(descriptionTxt.getText());
         p.setPrice(Double.parseDouble(priceTxt.getText()));
         p.setQte(Integer.parseInt(qteTxt.getText()));
-        p.setCatId(categoryCombo.getSelectionModel().getSelectedItem().getId());
+        p.setCategory(categoryCombo.getSelectionModel().getSelectedItem());
 
         try{
             if(!toUpdate) {
@@ -215,7 +215,8 @@ public class ProductController implements Initializable {
                 productService.update(p);
             }
             clean();
-            refreshData();
+//            refreshData();
+            productObservableList.add(p);
             alertSucc();
         }catch(Exception e){
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, e);

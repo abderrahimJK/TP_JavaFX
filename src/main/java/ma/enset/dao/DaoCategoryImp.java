@@ -38,6 +38,15 @@ public class DaoCategoryImp implements DaoCategory{
 
     @Override
     public Category save(Category a) {
+        try{
+            Connection connection = SingletonConnectionDB.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO CATEGORIES(NAME) VALUES (?)");
+            preparedStatement.setString(1,a.getName());
+            preparedStatement.executeUpdate();
+            return a;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 

@@ -1,23 +1,20 @@
 package ma.enset.presentation.views;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToolBar;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
+import java.io.IOException;
 
 public class ViewFactory {
 
-    public ViewFactory() {
-    }
-
-    public void showDashboard(){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dashboardProduct.fxml"));
+    public void showDashboard() throws IOException {
+        TabPane root = FXMLLoader.load(getClass().getResource("/fxml/main_pane.fxml"));
         Scene scene= null;
         try{
-            scene = new Scene(fxmlLoader.load());
+            scene = new Scene(root);
         }catch (Exception e){
             e.printStackTrace();
         }

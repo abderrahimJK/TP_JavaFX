@@ -1,6 +1,7 @@
 package ma.enset.dao;
 
 
+import ma.enset.dao.entities.Category;
 import ma.enset.dao.entities.Product;
 
 import java.sql.Connection;
@@ -17,7 +18,7 @@ public class DaoProductImp implements DaoProduct{
         Connection connection;
         try{
             connection = SingletonConnectionDB.getConnection();
-            String query = "select p.* , c.NAME as category from PRODUITS p join CATEGORIES c on p.CATID=c.ID";
+            String query = "select * from PRODUITS";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet res = preparedStatement.executeQuery();
             while (res.next()){
@@ -27,7 +28,15 @@ public class DaoProductImp implements DaoProduct{
                 p.setDescription(res.getString("DESCRIPTION"));
                 p.setPrice(res.getDouble("PRICE"));
                 p.setQte(res.getInt("QTE"));
-                p.setCatId(res.getInt("CATID"));
+                PreparedStatement ps = connection.prepareStatement("SELECT * FROM CATEGORIES WHERE ID  = ?");
+                ps.setInt(1, res.getInt("ID"));
+                ResultSet res2 = ps.executeQuery();
+                if(res2.next()){
+                    Category c = new Category();
+                    c.setId(res2.getInt("ID"));
+                    c.setName(res2.getString("NAME"));
+                }
+
                 list.add(p);
             }
             return list;
@@ -71,7 +80,7 @@ public class DaoProductImp implements DaoProduct{
             preparedStatement.setString(2,a.getDescription());
             preparedStatement.setDouble(3,a.getPrice());
             preparedStatement.setInt(4,a.getQte());
-            preparedStatement.setInt(5,a.getCatId());
+            preparedStatement.setInt(5,a.getCategory().getId());
             preparedStatement.executeUpdate();
             return a;
         }catch(Exception e){
@@ -104,7 +113,7 @@ public class DaoProductImp implements DaoProduct{
             preparedStatement.setString(2,a.getDescription());
             preparedStatement.setDouble(3,a.getPrice());
             preparedStatement.setInt(4,a.getQte());
-            preparedStatement.setInt(5,a.getCatId());
+            preparedStatement.setInt(5,a.getCategory().getId());
             preparedStatement.setInt(6,a.getId());
             preparedStatement.executeUpdate();
 

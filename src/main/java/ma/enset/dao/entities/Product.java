@@ -8,19 +8,19 @@ public class Product implements Serializable {
     private String description;
     private double price;
     private int qte;
-    private int catId;
 
+    private Category category;
     public Product() {
 
     }
 
-    public Product(int id, String name, String description, double price, int qte, int catId) {
+    public Product(int id, String name, String description, double price, int qte, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.qte = qte;
-        this.catId = catId;
+        this.category = category;
     }
 
     public int getId() {
@@ -63,11 +63,11 @@ public class Product implements Serializable {
         this.qte = qte;
     }
 
-    public int getCatId() {
-        return catId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCatId(int catId) {
-        this.catId = catId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
