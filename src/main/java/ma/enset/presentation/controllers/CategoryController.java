@@ -34,12 +34,11 @@ public class CategoryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loadCategory();
         id_cell.setCellValueFactory(new PropertyValueFactory<Category, Integer>("id"));
         Name_cell.setCellValueFactory(new PropertyValueFactory<Category, String>("name"));
 
         cat_tableView.setItems(observableList);
-
-
     }
 
 
